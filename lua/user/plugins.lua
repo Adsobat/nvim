@@ -73,7 +73,10 @@ local plugins = {
   -- Telescope
   {
     'nvim-telescope/telescope.nvim', tag = '0.1.6',
-    dependencies = { 'nvim-lua/plenary.nvim' }
+    dependencies = { 
+      'nvim-lua/plenary.nvim',
+      "BurntSushi/ripgrep",
+    }
   },
   {
     'nvim-telescope/telescope-media-files.nvim',
@@ -327,6 +330,15 @@ local plugins = {
   },
   -- GIt settings
   "lewis6991/gitsigns.nvim",
+  -- Show markings
+  "chentoast/marks.nvim",
+  -- Makrdown Preview
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function() vim.fn["mkdp#util#install"]() end,
+  },
 }
 
 

@@ -1,9 +1,38 @@
+local kind_icons = {
+  Text = '󰉿',
+  Method = '󰆧',
+  Function = '󰊕',
+  Constructor = '',
+  Field = ' ',
+  Variable = '󰀫',
+  Class = '󰠱',
+  Interface = '',
+  Module = '',
+  Property = '󰜢',
+  Unit = '󰑭',
+  Value = '󰎠',
+  Enum = '',
+  Keyword = '󰌋',
+  Snippet = '',
+  Color = '󰏘',
+  File = '󰈙',
+  Reference = '',
+  Folder = '󰉋',
+  EnumMember = '',
+  Constant = '󰏿',
+  Struct = '',
+  Event = '',
+  Operator = '󰆕',
+  TypeParameter = ' ',
+  Misc = ' ',
+}
+
 return {
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
     dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
+      'hrsh7th/cmp-buffer',
       {
         'L3MON4D3/LuaSnip',
         build = (function()
@@ -71,8 +100,8 @@ return {
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
           --['<CR>'] = cmp.mapping.confirm { select = true },
-          --['<Tab>'] = cmp.mapping.select_next_item(),
-          --['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          ['<Tab>'] = cmp.mapping.select_next_item(),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -105,9 +134,26 @@ return {
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
+          { name = 'buffer' },
+        },
+        formatting = {
+
+          expandable_indicator = false,
+          fields = { 'kind', 'abbr', 'menu' },
+          format = function(entry, vim_item)
+            -- Kind icons
+            vim_item.kind = string.format('%s', kind_icons[vim_item.kind])
+            -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+            vim_item.menu = ({
+              nvim_lsp = '[LSP]',
+              luasnip = '[Snippet]',
+              buffer = '[Buffer]',
+              path = '[Path]',
+            })[entry.source.name]
+            return vim_item
+          end,
         },
       }
     end,
   },
 }
--- vim: ts=2 sts=2 sw=2 et

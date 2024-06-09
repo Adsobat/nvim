@@ -6,7 +6,7 @@ return {
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-
+      { 'mfussenegger/nvim-jdtls' },
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
@@ -145,6 +145,13 @@ return {
       --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+      -- TODO: jdtls Variablen sollten verschoben werden damit diese besser abgekapselt sind.
+      local home = os.getenv 'HOME'
+      local workspace_path = home .. '/.local/share/nvim/jdtls-workspace/'
+      local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+      local workspace_dir = workspace_path .. project_name
+      local status, jdtls = pcall(require, 'jdtls')
+      local extendedClientCapabilities = jdtls.extendedClientCapabilities
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -159,7 +166,7 @@ return {
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
-        -- rust_analyzer = {},
+        rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -168,7 +175,59 @@ return {
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         --
+        jdtls = {
+          cmd = {
+            'java',
+            '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+            '-Dosgi.bundles.defaultStartLevel=4',
+            '-Declipse.product=org.eclipse.jdt.ls.core.product',
+            '-Dlog.protocol=true',
+            '-Dlog.level=ALL',
+            '-Xmx1g',
+            '--add-modules=ALL-SYSTEM',
+            '--add-opens',
+            'java.base/java.util=ALL-UNNAMED',
+            '--add-opens',
+            'java.base/java.lang=ALL-UNNAMED',
+            '-javaagent:' .. home .. '/.local/share/nvim/mason/packages/jdtls/lombok.jar',
+            '-jar',
+            vim.fn.glob(home .. '/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
+            '-configuration',
+            home .. '/.local/share/nvim/mason/packages/jdtls/config_mac',
+            '-data',
+            workspace_dir,
+          },
+          -- TODO: Root_dir funktioniert irgendwie nicht. Aber wird momentan nicht gebraucht.
+          -- root_dir = require('jdtls.setup').find_root { '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' },
 
+          settings = {
+            java = {
+              signatureHelp = { enabled = true },
+              extendedClientCapabilities = extendedClientCapabilities,
+              maven = {
+                downloadSources = true,
+              },
+              referencesCodeLens = {
+                enabled = true,
+              },
+              references = {
+                includeDecompiledSources = true,
+              },
+              inlayHints = {
+                parameterNames = {
+                  enabled = 'all', -- literals, all, none
+                },
+              },
+              format = {
+                enabled = false,
+              },
+            },
+          },
+
+          init_options = {
+            bundles = {},
+          },
+        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},

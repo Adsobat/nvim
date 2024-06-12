@@ -175,6 +175,7 @@ return {
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         --
+        -- INFO: Done based on: https://andrewcourter.substack.com/p/configure-neovim-for-java-development
         jdtls = {
           cmd = {
             'java',

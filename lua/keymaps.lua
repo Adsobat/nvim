@@ -31,12 +31,12 @@ keymap('n', '<C-Left>', ':vertical resize -2<CR>', merge(opts, { desc = 'Decreas
 keymap('n', '<C-Right>', ':vertical resize +2<CR>', merge(opts, { desc = 'Increase window width' }))
 
 -- Move Lines
-keymap('n', '<A-j>', ':m .+1<cr>==', merge(opts, { desc = 'Move down' }))
-keymap('n', '<A-k>', ':m .-2<cr>==', merge(opts, { desc = 'Move up' }))
-keymap('v', '<A-j>', ":m '>+1<cr>gv=gv", merge(opts, { desc = 'Move down' }))
-keymap('v', '<A-k>', ":m '<-2<cr>gv=gv", merge(opts, { desc = 'Move up' }))
-keymap('i', '<A-k>', '<esc>:m .-2<cr>==gi', merge(opts, { desc = 'Move up' }))
-keymap('i', '<A-j>', '<esc>:m .+1<cr>==gi', merge(opts, { desc = 'Move down' }))
+keymap('n', '<A-j>', ':m .+1<cr>==', merge(opts, { desc = 'Move line down' }))
+keymap('n', '<A-k>', ':m .-2<cr>==', merge(opts, { desc = 'Move line up' }))
+keymap('v', '<A-j>', ":m '>+1<cr>gv=gv", merge(opts, { desc = 'Move line down' }))
+keymap('v', '<A-k>', ":m '<-2<cr>gv=gv", merge(opts, { desc = 'Move line up' }))
+keymap('i', '<A-k>', '<esc>:m .-2<cr>==gi', merge(opts, { desc = 'Move line up' }))
+keymap('i', '<A-j>', '<esc>:m .+1<cr>==gi', merge(opts, { desc = 'Move line down' }))
 
 -- Navigate buffers
 keymap('n', '<S-l>', ':bnext<CR>', opts)
@@ -56,10 +56,10 @@ keymap('x', 'N', [[v:searchforward ? 'N' : 'n']], { noremap = true, expr = true 
 keymap('o', 'N', [[v:searchforward ? 'N' : 'n']], { noremap = true, expr = true })
 
 -- save file
-keymap('i', '<C-s>', ':w<cr><esc>', merge(opts, { desc = 'Save file' }))
-keymap('x', '<C-s>', ':w<cr><esc>', merge(opts, { desc = 'Save file' }))
-keymap('n', '<C-s>', ':w<cr><esc>', merge(opts, { desc = 'Save file' }))
-keymap('s', '<C-s>', ':w<cr><esc>', merge(opts, { desc = 'Save file' }))
+keymap('i', '<C-s>', '<esc>:w<cr><esc>', merge(opts, { desc = 'Save file' }))
+keymap('x', '<C-s>', '<esc>:w<cr><esc>', merge(opts, { desc = 'Save file' }))
+keymap('n', '<C-s>', '<esc>:w<cr><esc>', merge(opts, { desc = 'Save file' }))
+keymap('s', '<C-s>', '<esc>:w<cr><esc>', merge(opts, { desc = 'Save file' }))
 -- close file
 keymap('i', '<C-x>', ':x!<esc>', merge(opts, { desc = 'Quite file' }))
 keymap('x', '<C-x>', ':x!<esc>', merge(opts, { desc = 'Quite file' }))

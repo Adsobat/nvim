@@ -54,8 +54,17 @@ vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
-
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
 -- vim: ts=2 sts=2 sw=2 et
+--
+
+local group_cdpwd = vim.api.nvim_create_augroup('group_cdpwd', { clear = true })
+vim.api.nvim_create_autocmd('VimEnter', {
+  group = group_cdpwd,
+  pattern = '*',
+  callback = function()
+    vim.api.nvim_set_current_dir(vim.fn.expand '%:p:h')
+  end,
+})

@@ -11,5 +11,4 @@ local plugin = {
     return {}
   end,
 }
-
 return plugin

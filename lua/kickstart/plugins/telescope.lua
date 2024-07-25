@@ -66,10 +66,10 @@ local plugin = {
         --  All the info you're looking for is in `:help telescope.setup()`
         --
         defaults = {
-          path_display = function(opts, path)
-            local tail = require('telescope.utils').path_tail(path)
-            return string.format('%s > (%s)', tail, path)
-          end,
+          --          path_display = function(opts, path)
+          --            local tail = require('telescope.utils').path_tail(path)
+          --            return string.format('%s > (%s)', tail, path)
+          --          end,
         },
         mappings = {
           i = { ['<c-enter>'] = 'to_fuzzy_refine' },
@@ -79,6 +79,19 @@ local plugin = {
         extensions = {
           live_grep_args = {
             auto_qoting = false,
+            vimgrep_arguments = {
+              -- all required except `--smart-case`
+              'rg',
+              '--color=never',
+              '--no-heading',
+              '--with-filename',
+              '--line-number',
+              '--column',
+              '--smart-case',
+
+              -- add your options
+            },
+
             mappings = {
               i = {
                 ['<C-k>'] = lga_actions.quote_prompt(),
@@ -99,9 +112,35 @@ local plugin = {
       pcall(require('telescope').load_extension, 'telescope-live-grep-args')
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
+      local action_state = require 'telescope.actions.state'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>?', builtin.keymaps, { desc = 'Search Keymaps' })
+
+      --https://github.com/nvim-telescope/telescope.nvim/issues/621#issuecomment-2094924716
+      vim.keymap.set('n', '<leader><leader>', function()
+        builtin.buffers({
+          initial_mode = 'normal',
+          attach_mappings = function(prompt_bufnr, map)
+            local delete_buf = function()
+              local current_picker = action_state.get_current_picker(prompt_bufnr)
+              current_picker:delete_selection(function(selection)
+                vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+              end)
+            end
+
+            map('n', '<c-q>', delete_buf)
+
+            return true
+          end,
+        }, {
+          sort_lastused = true,
+          sort_mru = true,
+          theme = 'dropdown',
+        })
+      end)
+      --      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
@@ -109,7 +148,6 @@ local plugin = {
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
       vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[b] Find existing buffers' })
       vim.keymap.set('n', '<leader>sg', ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", { desc = '[S]earch by [G]rep' })
       -- Slightly advanced example of overriding default behavior and theme

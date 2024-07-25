@@ -1,0 +1,23 @@
+* Nerdtree
+  - Open empty folders when opening folder all at once
+  - open on startup verbessern(schneller)
+  - copy path reference of folder.
+  - read files that are to long
+* LSP
+  - Clangd kann weniger codeactions im vergleich zu VSCode
+  - Rename not working in IS-Server clangd
+  - rechtschreibprüfung 
+* Debuggeri
+  - Include debugger for:
+    - Java 
+    - C++
+    - rust
+    - typescript
+* Telescope
+  - Search args history 
+* Keymaps 
+  - table reformatting in orgmode in help
+  - comment out code
+  - delete buffer with :bd
+  - reverse gr
+

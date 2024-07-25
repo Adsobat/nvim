@@ -21,7 +21,7 @@ vim.g.maplocalleader = ' '
 --keymap("n", "<C-k>", "<C-w>k", merge(opts, {desc = "Go to upper window"}))
 --keymap("n", "<C-l>", "<C-w>l", merge(opts, {desc = "Go to right window"}))
 
-keymap('n', '<leader>e', ':Lex 30<cr>', merge(opts, { desc = 'Open explorer' }))
+--keymap('n', '<leader>e', ':Lex 30<cr>', merge(opts, { desc = 'Open explorer' }))
 
 -- Resize with arrows
 keymap('n', '<C-Up>', ':resize +2<CR>', merge(opts, { desc = 'Increase window height' }))
@@ -67,7 +67,7 @@ keymap('s', '<C-x>', ':x!<esc>', merge(opts, { desc = 'Quite file' }))
 -- quit
 keymap('n', '<leader>qq', ':qa!<CR>', { desc = 'Quite all', noremap = true, silent = true })
 keymap('n', '<leader>qf', ':q!<CR>', { desc = 'Quite file', noremap = true, silent = true })
-
+keymap('n', '<leader>qb', ':bd!<CR>', { desc = 'Quite buffer', noremap = true, silent = true })
 -- Insert --
 -- Press jk fast to exit insert mode
 keymap('i', 'jk', '<ESC>', merge(opts, { desc = 'exit insert mode' }))
@@ -117,4 +117,4 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('v', 'p', '_dp', { desc = 'paste' })
 
 vim.keymap.set('i', '<C-c>', '<Esc>', { desc = 'Remap crt c to esc' })
-vim.keymap.set({ 'v', 'n' }, '<leader>ev', '<cmd>Vex<CR>', { desc = 'Open File escporer' })
+--vim.keymap.set({ 'v', 'n' }, '<leader>ev', '<cmd>Vex<CR>', { desc = 'Open File explorer vertical' })

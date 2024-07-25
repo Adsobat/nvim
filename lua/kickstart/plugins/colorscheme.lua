@@ -1,4 +1,7 @@
 local plugin = {
+  {
+    'Yazeed1s/oh-lucy.nvim',
+  },
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
@@ -11,7 +14,7 @@ local plugin = {
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-storm'
+      vim.cmd.colorscheme 'oh-lucy'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
@@ -19,11 +22,5 @@ local plugin = {
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
+--return plugin
 return plugin
---return {
---  {
---    'navarasu/onedark.nvim',
---    styles = 'Warmer',
---    priority = 1000,
---  },
---}

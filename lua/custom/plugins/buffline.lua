@@ -14,6 +14,7 @@ local plugins = {
     themable = true,
     config = function(options)
       local status, bufferline = pcall(require, 'bufferline')
+      local status, whichkey = pcall(require, 'which-key.plugins.presets')
       if not status then
         print 'ERROR bufferline'
         return
@@ -46,14 +47,15 @@ local plugins = {
       }
       --      local bufferline = require 'bufferline'
       for i = 1, 9 do
+        local hotkey = '<leader>' .. i
         vim.api.nvim_set_keymap(
           'n', -- Mode (normal mode)
-          '<leader>' .. i, -- Key combination
+          hotkey,
           -- bufferline.go_to(i, true)
           ':lua require("bufferline").go_to('
             .. i
             .. ')<CR>',
-          { noremap = true, silent = true } -- Options (non-recursive and silent)
+          { desc = 'which_key_ignore', noremap = true, silent = true } -- Options (non-recursive and silent)
         )
       end
     end,

@@ -61,9 +61,17 @@ local plugin = {
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
           map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-
           -- Find references for the word under your cursor.
-          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+          vim.keymap.set('n', 'gr', '', {
+            desc = 'LSP: [G]oto [R]eferences',
+            callback = function()
+              require('telescope.builtin').lsp_references {
+                include_declaration = false,
+                include_current_line = false,
+                show_line = false,
+              }
+            end,
+          })
 
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
@@ -283,4 +291,4 @@ local plugin = {
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
-return plugin;
+return plugin

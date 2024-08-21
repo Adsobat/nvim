@@ -1,7 +1,4 @@
 * Nerdtree
-  - Open empty folders when opening folder all at once
-  - open on startup verbessern(schneller)
-  - copy path reference of folder.
   - read files that are to long
 * LSP
   - Clangd kann weniger codeactions im vergleich zu VSCode
@@ -15,9 +12,16 @@
     - typescript
 * Telescope
   - Search args history 
+  - generell bessere Suche. Mehr filtern
 * Keymaps 
   - table reformatting in orgmode in help
   - comment out code
-  - delete buffer with :bd
   - reverse gr
-
+* Project
+  - save open files
+  - save tabs
+  - ask on close if edits are not saved
+  - specific lsp configs für dieses Project
+* Orgmode alternative
+  - performance
+  - ease of use

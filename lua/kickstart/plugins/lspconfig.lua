@@ -153,6 +153,10 @@ local plugin = {
       --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+      }
       -- TODO: jdtls Variablen sollten verschoben werden damit diese besser abgekapselt sind.
       local home = os.getenv 'HOME'
       local workspace_path = home .. '/.local/share/nvim/jdtls-workspace/'
@@ -160,7 +164,6 @@ local plugin = {
       local workspace_dir = workspace_path .. project_name
       local status, jdtls = pcall(require, 'jdtls')
       local extendedClientCapabilities = jdtls.extendedClientCapabilities
-
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --
@@ -177,6 +180,9 @@ local plugin = {
           init_options = {
             clangdFileStatus = true,
           },
+        },
+        yamlls = {
+          capabilities = capabilities,
         },
         -- gopls = {},
         -- pyright = {},
@@ -204,7 +210,8 @@ local plugin = {
             'java.base/java.util=ALL-UNNAMED',
             '--add-opens',
             'java.base/java.lang=ALL-UNNAMED',
-            '-javaagent:' .. home .. '/.config/nvim/dep/lombok.jar',
+            '-javaagent:' .. vim.fn.expand '$HOME/.local/share/nvim/mason/packages/jdtls/lombok.jar',
+            --            '-javaagent:' .. home .. '/lombok.jar',
             '-jar',
             vim.fn.glob(home .. '/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
             '-configuration',
@@ -213,7 +220,7 @@ local plugin = {
             workspace_dir,
           },
           -- TODO: Root_dir funktioniert irgendwie nicht. Aber wird momentan nicht gebraucht.
-          -- root_dir = require('jdtls.setup').find_root { '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' },
+          --root_dir = require('jdtls.setup').find_root { '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' },
 
           settings = {
             java = {

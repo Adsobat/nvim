@@ -198,27 +198,12 @@ local plugin = {
         -- INFO: Done based on: https://andrewcourter.substack.com/p/configure-neovim-for-java-development
         jdtls = {
           cmd = {
-            'java',
-            '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-            '-Dosgi.bundles.defaultStartLevel=4',
-            '-Declipse.product=org.eclipse.jdt.ls.core.product',
-            '-Dlog.protocol=true',
-            '-Dlog.level=ALL',
-            '-Xmx1g',
-            '--add-modules=ALL-SYSTEM',
-            '--add-opens',
-            'java.base/java.util=ALL-UNNAMED',
-            '--add-opens',
-            'java.base/java.lang=ALL-UNNAMED',
-            '-javaagent:' .. vim.fn.expand '$HOME/.local/share/nvim/mason/packages/jdtls/lombok.jar',
-            --            '-javaagent:' .. home .. '/lombok.jar',
-            '-jar',
-            vim.fn.glob(home .. '/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
-            '-configuration',
-            home .. '/.local/share/nvim/mason/packages/jdtls/config_mac',
-            '-data',
-            workspace_dir,
+            vim.fn.expand '$HOME/.local/share/nvim/mason/bin/jdtls',
+            ('--jvm-arg=-javaagent:%s'):format(vim.fn.expand '$HOME/.local/share/nvim/mason/packages/jdtls/lombok.jar'),
           },
+          capabilities = require('cmp_nvim_lsp').default_capabilities(),
+          bundles = { vim.fn.expand '$HOME/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar' },
+
           -- TODO: Root_dir funktioniert irgendwie nicht. Aber wird momentan nicht gebraucht.
           --root_dir = require('jdtls.setup').find_root { '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' },
 

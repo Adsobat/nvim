@@ -55,15 +55,6 @@ return {
     --   adapter (default: `R`)
     vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = '' })
 
-    require('jdtls').start_or_attach {
-      cmd = {
-        vim.fn.expand '$HOME/.local/share/nvim/mason/bin/jdtls',
-        ('--jvm-arg=-javaagent:%s'):format(vim.fn.expand '$HOME/.local/share/nvim/mason/packages/jdtls/lombok.jar'),
-      },
-      capabilities = require('cmp_nvim_lsp').default_capabilities(),
-      bundles = { vim.fn.expand '$HOME/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar' },
-    }
-
     -- Basic debugging keymaps, feel free to change to your liking!
     vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
     vim.keymap.set('n', '<F1>', dap.step_into, { desc = 'Debug: Step Into' })

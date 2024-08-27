@@ -1,5 +1,7 @@
 local nvim_path = vim.fn.expand '$HOME/.config/nvim/'
 local jdtt_language_server_path = vim.fn.expand '$HOME/Downloads/jdt-language-server-1.9.0-202203031534/'
+local current_cwd = vim.fn.getcwd()
+
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
   -- The command that starts the language server
@@ -40,10 +42,8 @@ local config = {
     -- eclipse.jdt.ls installation            Depending on your system.
 
     -- 💀
-    -- TODO: make workspace teporary and unique to open Project
-    -- See `data directory configuration` section in the README
     '-data',
-    '/tmp/workspace/ebs',
+    '/tmp/workspace/' .. current_cwd,
   },
 
   -- 💀
@@ -73,7 +73,9 @@ local config = {
   --
   -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
   init_options = {
-    bundles = { vim.fn.expand '$HOME/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar' },
+    bundles = {
+      vim.fn.expand '$HOME/.local/share/nvim/lazy/java-debug/com.microsoft.java.debug.repository/target/repository/plugins/com.microsoft.java.debug.plugin_0.53.0.jar',
+    },
   },
 }
 -- This starts a new client & server,

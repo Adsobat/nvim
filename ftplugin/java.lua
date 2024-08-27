@@ -1,3 +1,5 @@
+local home = '/home/jusc6/'
+local nvim_path = home .. '.config/nvim/'
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
   -- The command that starts the language server
@@ -19,7 +21,11 @@ local config = {
     'java.base/java.util=ALL-UNNAMED',
     '--add-opens',
     'java.base/java.lang=ALL-UNNAMED',
-
+    --'--jvm-arg=-javaagent:/home/jusc6/.config/nvim/dep/lombok.jar',
+    --TODO: lombock muss noch configuriert werden
+    '-javaagent:'
+      .. nvim_path
+      .. 'dep/lombok.jar',
     -- ✔️✔️
 
     '-jar',
@@ -38,8 +44,8 @@ local config = {
     -- 💀
     -- TODO: make workspace teporary and unique to open Project
     -- See `data directory configuration` section in the README
-    --  '-data',
-    --  '/tmp/workspace/',
+    '-data',
+    '/tmp/workspace/cms',
   },
 
   -- 💀

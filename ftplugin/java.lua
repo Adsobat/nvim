@@ -1,11 +1,10 @@
-local home = '/home/jusc6/'
-local nvim_path = home .. '.config/nvim/'
+local nvim_path = vim.fn.expand '$HOME/.config/nvim/'
+local jdtt_language_server_path = vim.fn.expand '$HOME/Downloads/jdt-language-server-1.9.0-202203031534/'
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
-
     -- 💀
     'java', -- or '/path/to/java17_or_newer/bin/java'
     -- depends on if `java` is in your $PATH env variable and if it points to the right version.
@@ -21,7 +20,6 @@ local config = {
     'java.base/java.util=ALL-UNNAMED',
     '--add-opens',
     'java.base/java.lang=ALL-UNNAMED',
-    --'--jvm-arg=-javaagent:/home/jusc6/.config/nvim/dep/lombok.jar',
     --TODO: lombock muss noch configuriert werden
     '-javaagent:'
       .. nvim_path
@@ -29,14 +27,14 @@ local config = {
     -- ✔️✔️
 
     '-jar',
-    '/home/jusc6/Downloads/jdt-language-server-1.9.0-202203031534/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+    jdtt_language_server_path .. 'plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
     -- Must point to the                                                     Change this to
     -- eclipse.jdt.ls installation                                           the actual version
 
     -- ✔️
     '-configuration',
-    '/home/jusc6/Downloads/jdt-language-server-1.9.0-202203031534/config_linux',
+    jdtt_language_server_path .. 'config_linux',
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
     -- Must point to the                      Change to one of `linux`, `win` or `mac`
     -- eclipse.jdt.ls installation            Depending on your system.
@@ -45,7 +43,7 @@ local config = {
     -- TODO: make workspace teporary and unique to open Project
     -- See `data directory configuration` section in the README
     '-data',
-    '/tmp/workspace/cms',
+    '/tmp/workspace/ebs',
   },
 
   -- 💀
@@ -60,7 +58,11 @@ local config = {
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
   -- for a list of options
   settings = {
-    java = {},
+    java = {
+      signatureHelp = { enabled = true },
+      import = { enabled = true },
+      rename = { enabled = true },
+    },
   },
 
   -- Language server `initializationOptions`
@@ -71,7 +73,7 @@ local config = {
   --
   -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
   init_options = {
-    bundles = {},
+    bundles = { vim.fn.expand '$HOME/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar' },
   },
 }
 -- This starts a new client & server,
@@ -89,3 +91,18 @@ require('jdtls').start_or_attach(config)
 --}
 
 --require('jdtls').start_or_attach(config)
+--
+--
+
+local port = '5012'
+local dap = require 'dap'
+dap.adapters.java = function(callback)
+  -- FIXME:
+  -- Here a function needs to trigger the `vscode.java.startDebugSession` LSP command
+  -- The response to the command must be the `port` used below
+  callback {
+    type = 'server',
+    host = '127.0.0.1',
+    port = port,
+  }
+end

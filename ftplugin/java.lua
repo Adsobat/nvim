@@ -74,7 +74,11 @@ local config = {
   -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
   init_options = {
     bundles = {
-      vim.fn.expand '$HOME/.local/share/nvim/lazy/java-debug/com.microsoft.java.debug.repository/target/repository/plugins/com.microsoft.java.debug.plugin_0.53.0.jar',
+      -- vim.fn.expand '$HOME/.local/share/nvim/lazy/java-debug/com.microsoft.java.debug.repository/target/repository/plugins/com.microsoft.java.debug.plugin_0.53.0.jar',
+      vim.fn.glob(
+        vim.fn.expand '$HOME/.config/nvim/dep/java-debug/com.microsoft.java.debug.repository/target/repository/plugins/com.microsoft.java.debug.plugin_0.53.0.jar',
+        1
+      ),
     },
   },
 }
@@ -96,15 +100,15 @@ require('jdtls').start_or_attach(config)
 --
 --
 
-local port = '5012'
-local dap = require 'dap'
-dap.adapters.java = function(callback)
-  -- FIXME:
-  -- Here a function needs to trigger the `vscode.java.startDebugSession` LSP command
-  -- The response to the command must be the `port` used below
-  callback {
-    type = 'server',
-    host = '127.0.0.1',
-    port = port,
-  }
-end
+--local port = '5012'
+--local dap = require 'dap'
+--dap.adapters.java = function(callback)
+--  -- FIXME:
+--  -- Here a function needs to trigger the `vscode.java.startDebugSession` LSP command
+--  -- The response to the command must be the `port` used below
+--  callback {
+--    type = 'server',
+--    host = '127.0.0.1',
+--    port = port,
+--  }
+--end

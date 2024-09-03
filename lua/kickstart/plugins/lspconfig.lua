@@ -193,6 +193,13 @@ local plugin = {
             },
           },
         },
+        bashls = {
+
+          root_dir = function(fname)
+            local util = require 'lspconfig.util'
+            return util.root_pattern 'TEST_RUNNER.sh'(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
+          end,
+        },
       }
 
       -- Ensure the servers and tools above are installed

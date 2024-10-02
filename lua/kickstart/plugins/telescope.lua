@@ -36,6 +36,7 @@ local plugin = {
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      { 'nvim-telescope/telescope-smart-history.nvim', dependencies = { 'kkharji/sqlite.lua' } },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -66,13 +67,21 @@ local plugin = {
         --  All the info you're looking for is in `:help telescope.setup()`
         --
         defaults = {
+          history = {
+            path = '~/.local/share/nvim/databases/telescope_history.sqlite3',
+            limit = 100,
+          },
           --          path_display = function(opts, path)
           --            local tail = require('telescope.utils').path_tail(path)
           --            return string.format('%s > (%s)', tail, path)
           --          end,
         },
         mappings = {
-          i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          i = {
+            ['<C-Down>'] = require('telescope.actions').cycle_history_next,
+            ['<C-Up>'] = require('telescope.actions').cycle_history_prev,
+            ['<c-enter>'] = 'to_fuzzy_refine',
+          },
         },
         -- },
         -- pickers = {}
@@ -97,6 +106,8 @@ local plugin = {
                 ['<C-k>'] = lga_actions.quote_prompt(),
                 ['<C-i>'] = lga_actions.quote_prompt { postfix = ' --iglob ' },
                 ['<C-f>'] = lga_actions.quote_prompt { postfix = ' -t', desc = 'find search in files' },
+                ['<C-Down>'] = require('telescope.actions').cycle_history_next,
+                ['<C-Up>'] = require('telescope.actions').cycle_history_prev,
               },
             },
           },

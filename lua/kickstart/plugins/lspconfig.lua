@@ -6,7 +6,7 @@ local plugin = {
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      { 'mfussenegger/nvim-jdtls' },
+      { 'nvim-java/nvim-java' },
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
@@ -157,22 +157,6 @@ local plugin = {
         dynamicRegistration = false,
         lineFoldingOnly = true,
       }
-      -- TODO: jdtls Variablen sollten verschoben werden damit diese besser abgekapselt sind.
-      local home = os.getenv 'HOME'
-      local workspace_path = home .. '/.local/share/nvim/jdtls-workspace/'
-      local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-      local workspace_dir = workspace_path .. project_name
-      local status, jdtls = pcall(require, 'jdtls')
-      local extendedClientCapabilities = jdtls.extendedClientCapabilities
-      -- Enable the following language servers
-      --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-      --
-      --  Add any additional override configuration in the following tables. Available keys are:
-      --  - cmd (table): Override the default command used to start the server
-      --  - filetypes (table): Override the default list of associated filetypes for the server
-      --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-      --  - settings (table): Override the default settings passed when initializing the server.
-      --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {
           cmd = { 'clangd', '--header-insertion=never', '--background-index' },
@@ -195,61 +179,6 @@ local plugin = {
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         --
-        -- INFO: Done based on: https://andrewcourter.substack.com/p/configure-neovim-for-java-development
-        jdtls = {
-          cmd = {
-            'java',
-            '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-            '-Dosgi.bundles.defaultStartLevel=4',
-            '-Declipse.product=org.eclipse.jdt.ls.core.product',
-            '-Dlog.protocol=true',
-            '-Dlog.level=ALL',
-            '-Xmx1g',
-            '--add-modules=ALL-SYSTEM',
-            '--add-opens',
-            'java.base/java.util=ALL-UNNAMED',
-            '--add-opens',
-            'java.base/java.lang=ALL-UNNAMED',
-            '-javaagent:' .. vim.fn.expand '$HOME/.local/share/nvim/mason/packages/jdtls/lombok.jar',
-            --            '-javaagent:' .. home .. '/lombok.jar',
-            '-jar',
-            vim.fn.glob(home .. '/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
-            '-configuration',
-            home .. '/.local/share/nvim/mason/packages/jdtls/config_mac',
-            '-data',
-            workspace_dir,
-          },
-          -- TODO: Root_dir funktioniert irgendwie nicht. Aber wird momentan nicht gebraucht.
-          --root_dir = require('jdtls.setup').find_root { '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' },
-
-          settings = {
-            java = {
-              signatureHelp = { enabled = true },
-              extendedClientCapabilities = extendedClientCapabilities,
-              maven = {
-                downloadSources = true,
-              },
-              referencesCodeLens = {
-                enabled = true,
-              },
-              references = {
-                includeDecompiledSources = true,
-              },
-              inlayHints = {
-                parameterNames = {
-                  enabled = 'all', -- literals, all, none
-                },
-              },
-              format = {
-                enabled = false,
-              },
-            },
-          },
-
-          init_options = {
-            bundles = {},
-          },
-        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -298,6 +227,15 @@ local plugin = {
             -- certain features of an LSP (for example, turning off formatting for tsserver)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
+          end,
+          jdtls = function()
+            require('java').setup {
+              -- Your custom jdtls settings goes here
+            }
+
+            require('lspconfig').jdtls.setup {
+              -- Your custom nvim-java configuration goes here
+            }
           end,
         },
       }

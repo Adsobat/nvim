@@ -168,6 +168,7 @@ local plugin = {
         yamlls = {
           capabilities = capabilities,
         },
+        jdtls = {},
         -- gopls = {},
         -- pyright = {},
         rust_analyzer = {},
@@ -178,7 +179,6 @@ local plugin = {
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
-        --
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -209,7 +209,6 @@ local plugin = {
       --
       --  You can press `g?` for help in this menu.
       require('mason').setup()
-
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})

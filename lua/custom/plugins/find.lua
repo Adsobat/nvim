@@ -22,4 +22,5 @@ local plugin = {
 --    vim.keymap.set('n', '<leader>sg', ':FZF grep_visual<CR>', { desc = '[S]earch by [G]rep' })
 --  end,
 --}
-return plugin
+--return plugin
+return {}

@@ -14,6 +14,7 @@ local plugin = {
       'nvim-lua/plenary.nvim',
       {
         'nvim-telescope/telescope-live-grep-args.nvim',
+        'smartpde/telescope-recent-files',
         -- This will not install any breaking changes.
         -- For major updates, this must be adjusted manually.
         version = '^1.1.0',
@@ -111,6 +112,7 @@ local plugin = {
               },
             },
           },
+
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
@@ -121,12 +123,19 @@ local plugin = {
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
       pcall(require('telescope').load_extension, 'telescope-live-grep-args')
+      pcall(require('telescope').load_extension, 'recent_files')
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
       local action_state = require 'telescope.actions.state'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>?', builtin.keymaps, { desc = 'Search Keymaps' })
+      vim.keymap.set(
+        'n',
+        '<leader>F',
+        [[<cmd>lua require('telescope').extensions.recent_files.pick()<CR>]],
+        { desc = 'Search recent [F]iles', noremap = true, silent = true }
+      )
 
       --https://github.com/nvim-telescope/telescope.nvim/issues/621#issuecomment-2094924716
       vim.keymap.set('n', '<leader><leader>', function()

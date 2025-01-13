@@ -19,7 +19,7 @@ local plugin = {
     vim.g.loaded_netrwPlugin = 1
 
     vim.keymap.set(
-      { 'n', 'v', 'i', 'c', 's', 'x', 'o', 't' },
+      { 'n', 'v', 'c', 's', 'x', 'o', 't' },
       '<leader>e',
       '<Cmd>NvimTreeToggle <CR>',
       { desc = 'Open File view', noremap = true, silent = true, nowait = true }

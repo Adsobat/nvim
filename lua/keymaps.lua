@@ -117,4 +117,6 @@ vim.keymap.set('n', '<Leader>wt', [[:%s/\s\+$//e<cr>]], { desc = 'Remove whitesp
 vim.keymap.set('v', 'p', '_dp', { desc = 'paste' })
 
 vim.keymap.set('i', '<C-c>', '<Esc>', { desc = 'Remap crt c to esc' })
+
+-- add tabs to selected
 --vim.keymap.set({ 'v', 'n' }, '<leader>ev', '<cmd>Vex<CR>', { desc = 'Open File explorer vertical' })

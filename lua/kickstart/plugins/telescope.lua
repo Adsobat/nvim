@@ -112,7 +112,9 @@ local plugin = {
               },
             },
           },
-
+          colorscheme = {
+            enable_preview = true,
+          },
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },

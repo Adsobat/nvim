@@ -65,7 +65,8 @@ keymap('x', '<C-x>', ':x!<esc>', merge(opts, { desc = 'Quite file' }))
 keymap('n', '<C-x>', ':x!<esc>', merge(opts, { desc = 'Quite file' }))
 keymap('s', '<C-x>', ':x!<esc>', merge(opts, { desc = 'Quite file' }))
 -- quit
-keymap('n', '<leader>qq', ':qa!<CR>', { desc = 'Quite all', noremap = true, silent = true })
+keymap('n', '<leader>qa', ':qa!<CR>', { desc = 'Quite all no save', noremap = true, silent = true })
+keymap('n', '<leader>qw', ':xa<CR>', { desc = 'Quite all and save', noremap = true, silent = true })
 keymap('n', '<leader>qf', ':q!<CR>', { desc = 'Quite file', noremap = true, silent = true })
 keymap('n', '<leader>qb', ':bd!<CR>', { desc = 'Quite buffer', noremap = true, silent = true })
 -- Insert --
@@ -118,5 +119,10 @@ vim.keymap.set('v', 'p', '_dp', { desc = 'paste' })
 
 vim.keymap.set('i', '<C-c>', '<Esc>', { desc = 'Remap crt c to esc' })
 
+
+--clangD
+
+keymap('n', '<leader>lh', ':ClangdSwitchSourceHeader<CR>', merge(opts, { desc = 'Switch between source and header files' }))
 -- add tabs to selected
 --vim.keymap.set({ 'v', 'n' }, '<leader>ev', '<cmd>Vex<CR>', { desc = 'Open File explorer vertical' })
+--#region

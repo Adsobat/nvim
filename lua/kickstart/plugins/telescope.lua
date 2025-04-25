@@ -88,7 +88,21 @@ local plugin = {
         -- pickers = {}
         extensions = {
           live_grep_args = {
-            auto_qoting = false,
+            auto_qoting = true,
+            layout_config = {
+              prompt_position = "bottom",
+              horizontal = {
+                width_padding = 0.04,
+                height_padding = 0.1,
+                preview_width = 0.6,
+              },
+              vertical = {
+                width_padding = 0.05,
+                height_padding = 1,
+                preview_height = 0.5,
+              },
+              layout_strategy = "horizontal",
+            },
             vimgrep_arguments = {
               -- all required except `--smart-case`
               'rg',
@@ -118,6 +132,7 @@ local plugin = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
+
         },
       }
 
@@ -152,6 +167,7 @@ local plugin = {
             end
 
             map('n', '<c-q>', delete_buf)
+            map('n', '<Del>', delete_buf)
 
             return true
           end,

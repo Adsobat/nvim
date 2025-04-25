@@ -158,10 +158,13 @@ local plugin = {
       }
       local servers = {
         clangd = {
-          cmd = { 'clangd', '--header-insertion=never', '--background-index' },
+          cmd = { 'clangd', '--header-insertion=never', '--background-index'
+       --   , '--log=verbose' 
+        },
           filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
           init_options = {
             clangdFileStatus = true,
+            fallbackFlags = { '-std=c++17'}
           },
         },
         yamlls = {

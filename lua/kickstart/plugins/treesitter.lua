@@ -8,20 +8,23 @@ return {
       require('nvim-treesitter.install').prefer_git = true
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
-        ensure_installed = {
-          'c',
-          'cpp',
-          'html',
-          'lua',
-          'luadoc',
-          'markdown',
-          'python',
-          'rust',
-          'vim',
-          'vimdoc',
-        },
+     --   ensure_installed = {
+     --     'c',
+     --     'cpp',
+     --     'html',
+     --     'lua',
+     --     'luadoc',
+     --     'markdown',
+     --     'maintained',
+     --     'html',
+     --     'python',
+     --     'query',
+     --     'rust',
+     --     'vim',
+     --     'vimdoc',
+     --   },
         -- Autoinstall languages that are not installed
-        auto_install = false,
+        auto_install = true,
         highlight = {
           enable = true,
           -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.

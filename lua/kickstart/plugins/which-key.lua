@@ -28,13 +28,15 @@ return {
       -- Document existing key chains
       require('which-key').add {
 
-        { '', group = '[S]earch' },
-        { '', group = '[R]ename' },
-        { '', group = '[C]ode' },
-        { '', group = '[W]orkspace' },
-        { '', group = 'Git [H]unk' },
-        { '', group = '[D]ocument' },
-        { '', group = '[T]oggle' },
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>q', group = '[Q]uite' },
+        { '<leader>l', group = 'Switch headers' },
+        { '<leader>r', group = '[R]ename' },
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>w', group = '[W]orkspace' },
+        { '<leader>h', group = 'Git [H]unk' },
+        { '<leader>d', group = '[D]ocument' },
+        { '<leader>t', group = '[T]oggle' },
         { '', desc = '', hidden = true, mode = { 'n', 'n', 'n', 'n', 'n', 'n', 'n' } },
         --    ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
         --    ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },

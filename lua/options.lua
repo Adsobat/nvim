@@ -60,6 +60,7 @@ vim.opt.scrolloff = 10
 -- vim: ts=2 sts=2 sw=2 et
 --
 
+vim.g.editorconfig = true
 local group_cdpwd = vim.api.nvim_create_augroup('group_cdpwd', { clear = true })
 vim.api.nvim_create_autocmd('VimEnter', {
   group = group_cdpwd,

@@ -1,0 +1,1 @@
+{"validation":[{"name":"NOOP","description":"Skip validation","default_config":{}}],"processing":[{"name":"NOOP","description":"Skip processing, output nothing","default_config":{}}]}
